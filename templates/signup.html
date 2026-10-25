@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    <p class="sub-text" style="text-align: center; margin-bottom: 24px;">Create your profile to start analyzing resumes</p>
+    
+    <form method="POST">
+      <label for="signup-email">Email Address</label>
+      <input
+        id="signup-email"
+        type="email"
+        name="email"
+        placeholder="name@example.com"
+        required
+      />
+      
+      <label for="signup-password">Password</label>
+      <input 
+        id="signup-password"
+        type="password" 
+        name="password" 
+        placeholder="••••••••" 
+        required 
+      />
+      <span style="font-size: 0.8rem; color: var(--text-muted); margin-top: -8px;">Must be at least 6 characters</span>
+      
+      <button type="submit" style="margin-top: 8px;">Create Account</button>
+    </form>
+    
+    <p class="switch-auth">
+      Already have an account? <a href="/login">Sign in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

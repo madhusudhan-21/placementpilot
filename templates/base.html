@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        {% include "style.css" %}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>PlacementPilot | AI Career Platform</title>
+</head>
+<body>
+   <header>
+    <div class="container header-inner">
+        <a href="/" class="logo">
+            <span>Placement</span><span class="highlight">Pilot</span>
+        </a>
+        <nav>
+            {% if session.get('user') %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/history">History</a>
+            <a href="/logout">Logout</a>
+            {% else %}
+            <a href="/login">Login</a>
+            <a href="/signup" class="nav-btn-primary">Sign Up</a>
+            {% endif %}
+        </nav>
+    </div>
+   </header>
+   <main class="container">
+    {% block content %}{% endblock %}
+   </main>
+   <footer>
+    <p>&copy; 2026 PlacementPilot &bull; AI Career Assistant</p>
+   </footer>
+</body>
+</html>

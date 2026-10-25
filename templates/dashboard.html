@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-intro">
+    <h2>Welcome, {{ user.split('@')[0] if user else 'User' }}</h2>
+    <p class="sub-text">Analyze your resume against your target role to get missing skills and an actionable roadmap.</p>
+</div>
+
+<div class="card" style="max-width: 760px; margin: 0 auto;">
+  <h3 style="margin-top: 0; margin-bottom: 20px;">Resume Analyzer</h3>
+
+  <form method="POST" enctype="multipart/form-data">
+    <label for="resume-text">Paste Resume Text</label>
+    <textarea
+      id="resume-text"
+      name="resume"
+      placeholder="Paste your resume contents or key skills here..."
+    ></textarea>
+    
+    <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin: 4px 0;">
+      <span>&mdash; OR UPLOAD FILE &mdash;</span>
+    </div>
+    
+    <div class="file-upload-box">
+      <input type="file" name="file" accept=".pdf,.docx" />
+    </div>
+    
+    <label for="target-role" style="margin-top: 4px;">Target Career Role</label>
+    <input
+      id="target-role"
+      name="role"
+      placeholder="e.g. Backend Developer, Data Scientist, DevOps Engineer"
+      required
+    />
+    
+    <button type="submit" style="margin-top: 10px; width: 100%;">Analyze Profile</button>
+  </form>
+</div>
+
+{% if result %}
+<div class="results-card" style="max-width: 760px; margin: 32px auto 0;">
+  <h2 style="margin-bottom: 20px;">Analysis Results</h2>
+  
+  {% if result.error %}
+  <div class="alert-error">
+    <strong>Notice:</strong> {{ result.error }}
+  </div>
+  {% endif %}
+  
+  <div class="skills-grid">
+    <div class="skill-panel">
+      <h3 style="color: var(--primary-text);">Detected Skills</h3>
+      <ul class="skill-tag-list">
+        {% for s in result.skills %}
+        <li class="skill-tag">{{ s }}</li>
+        {% else %}
+        <li style="color: var(--text-muted); font-size: 0.9rem;">No matching skills detected</li>
+        {% endfor %}
+      </ul>
+    </div>
+    
+    <div class="skill-panel">
+      <h3 style="color: #b91c1c;">Missing Skills</h3>
+      <ul class="skill-tag-list">
+        {% for s in result.missing_skills %}
+        <li class="skill-tag missing">{{ s }}</li>
+        {% else %}
+        <li style="color: var(--text-muted); font-size: 0.9rem;">No major gaps identified</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  
+  <div class="roadmap-container">
+    <h3>Recommended Roadmap</h3>
+    <ul class="roadmap-list">
+      {% for s in result.roadmap %}
+      <li class="roadmap-item">
+        <span class="roadmap-badge">Phase {{ loop.index }}</span>
+        <div class="roadmap-content">{{ s }}</div>
+      </li>
+      {% else %}
+      <li style="color: var(--text-muted); font-size: 0.9rem;">No roadmap available</li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="questions-container">
+    <h3>Interview Questions</h3>
+    <ul class="questions-list">
+      {% for q in result.interview_questions %}
+      <li class="question-item">
+        <strong>Question {{ loop.index }}:</strong> {{ q }}
+      </li>
+      {% else %}
+      <li style="color: var(--text-muted); font-size: 0.9rem;">No questions generated</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

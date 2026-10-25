@@ -1,0 +1,7 @@
+Flask==3.1.3
+SQLAlchemy==2.0.52
+python-dotenv
+pymysql
+openai
+PyPDF2
+python-docx
